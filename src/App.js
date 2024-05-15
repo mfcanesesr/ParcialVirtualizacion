@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+const express = require("express");
+const cors = require('cors');
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const app = express();
 
-export default App;
+app.use(cors({
+    origin: '*',
+}));
+
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ extended: true, limit: '50mb' }));
+
+app.use('/alumnos', require('./routes/Alumnos.Router'));
+//Routes
+app.get('/', function(req, res) {
+    res.send('Codes App running.');
+});
+
+module.exports = app;
